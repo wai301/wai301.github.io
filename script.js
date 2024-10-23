@@ -24,19 +24,19 @@ const myItems = [
         id: 1,
         title: "iPhone 12 Pro",
         status: "active",
-        image: "/api/placeholder/200/150"
+        image: "images (3).jpg"
     },
     {
         id: 2,
         title: "เสื้อแบรนด์ Uniqlo",
         status: "active",
-        image: "/api/placeholder/200/150"
+        image: "1f.jpg"
     },
     {
         id: 3,
         title: "หูฟัง Sony WH-1000XM4",
         status: "inactive",
-        image: "/api/placeholder/200/150"
+        image: "images (4).jpg"
     }
 ];
 
@@ -47,7 +47,7 @@ const trackingData = {
         product: "iPhone 12 Pro แลกกับ Samsung S21",
         partner: "คุณนก",
         date: "23 ต.ค. 2024",
-        image: "/api/placeholder/80/80",
+        image: "images (3).jpg",
         status: "shipping",
         timeline: [
             {
@@ -77,7 +77,7 @@ const trackingData = {
         product: "เสื้อ Uniqlo แลกกับ เสื้อ H&M",
         partner: "คุณกบ",
         date: "22 ต.ค. 2024",
-        image: "/api/placeholder/80/80",
+        image: "1f.jpg",
         status: "delivered",
         timeline: [
             {
@@ -137,7 +137,7 @@ function renderProducts() {
     productGrid.innerHTML = products.map(product => `
         <div class="product-card">
             <div class="product-image">
-                <img src="/api/placeholder/400/300" alt="${product.title}">
+                <img src="download.jpg" alt="${product.title}">
                 <button class="favorite-button">❤️</button>
             </div>
             <div class="product-info">
@@ -336,4 +336,125 @@ function openChat(productId) {
 
 function closeDialog() {
     document.getElementById('chatDialog').style.display = 'none';
+}
+// Event listeners for chat
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('.chat-input textarea');
+    const sendButton = document.querySelector('.chat-input .send-button');
+
+    textarea.addEventListener('input', () => {
+        sendButton.disabled = !textarea.value.trim() && !selectedImage;
+        
+        // Adjust textarea height
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+
+    textarea.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (!textarea.value.trim() && !selectedImage) return;
+            
+            sendMessage(textarea.value);
+            textarea.value = '';
+            textarea.style.height = 'auto';
+            sendButton.disabled = true;
+        }
+    });
+
+    sendButton.addEventListener('click', () => {
+        if (!textarea.value.trim() && !selectedImage) return;
+        
+        sendMessage(textarea.value);
+        textarea.value = '';
+        textarea.style.height = 'auto';
+        sendButton.disabled = true;
+    });
+
+    // Event listener for add item form
+    document.getElementById('addItemForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const title = document.getElementById('itemTitle').value;
+        const description = document.getElementById('itemDescription').value;
+        
+        myItems.unshift({
+            id: myItems.length + 1,
+            title: title,
+            status: 'active',
+            image: "/api/placeholder/200/150"
+        });
+
+        renderMyItems();
+        closeAddItemModal();
+        this.reset();
+    });
+});
+
+// Function to send chat message
+function sendMessage(content) {
+    if (!content.trim() && !selectedImage) return;
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    const messagesDiv = document.querySelector('.chat-messages');
+
+    // Add new message
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message-group';
+
+    // If there's an image
+    if (selectedImage) {
+        messageDiv.innerHTML = `
+            <div class="message message-sent">
+                <div class="message-image">
+                    <img src="${selectedImage}" alt="Sent image">
+                </div>
+            </div>
+            <div class="message-time">${timeStr}</div>
+        `;
+        selectedImage = null;
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('imagePreview').innerHTML = '';
+    }
+
+    // If there's text content
+    if (content.trim()) {
+        messageDiv.innerHTML += `
+            <div class="message message-sent">${content}</div>
+            <div class="message-time">${timeStr}</div>
+        `;
+    }
+
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Image selection for add item modal
+function handleImageSelect(event) {
+    const files = Array.from(event.target.files);
+    const grid = document.getElementById('imageUploadGrid');
+    
+    files.forEach(file => {
+        if (grid.children.length < 6) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'image-upload-box';
+                imgContainer.style.backgroundImage = `url(${e.target.result})`;
+                imgContainer.style.backgroundSize = 'cover';
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '❌';
+                deleteButton.className = 'delete-image-button';
+                deleteButton.onclick = function() {
+                    grid.removeChild(imgContainer);
+                };
+                
+                imgContainer.appendChild(deleteButton);
+                grid.insertBefore(imgContainer, grid.lastChild);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 }
