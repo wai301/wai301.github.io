@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreadME - แพลตฟอร์มแลกเปลี่ยนสินค้า</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landingPage">
+        <div class="landing-content">
+            <div class="logo"></div>
+            <h1 class="landing-title">Discover the Joy of Trading on TreadME</h1>
+            <p class="landing-description">Exchange your items with ease and find new treasures. Start exploring trade opportunities now!</p>
+            <div class="button-container">
+                <button class="primary-button" onclick="startTrading()">Start Trading</button>
+                <button class="outline-button">Learn More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp">
+        <!-- Product List -->
+        <div class="product-list">
+            <h1 class="product-title">รายการสินค้าทั้งหมด</h1>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="page-content profile-container" style="display: none;">
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img src="/api/placeholder/150/150" alt="Profile Picture">
+                    <button class="edit-profile-button" onclick="uploadProfileImage()">📷</button>
+                </div>
+                <div class="user-info">
+                    <h1 class="user-name">คุณมด TraderPro</h1>
+                    <p class="user-location">📍 กรุงเทพมหานคร</p>
+                </div>
+            </div>
+
+            <div class="user-stats">
+                <div class="stat-item">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">สินค้า</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">128</div>
+                    <div class="stat-label">ผู้ติดตาม</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">การแลกเปลี่ยนสำเร็จ</div>
+                </div>
+            </div>
+
+            <div class="my-items-section">
+                <div class="section-title">
+                    สินค้าของฉัน
+                    <button class="add-item-button" onclick="openAddItemModal()">
+                        ➕ เพิ่มสินค้า
+                    </button>
+                </div>
+                <div class="my-items-grid" id="myItemsGrid">
+                    <!-- สินค้าจะถูกเพิ่มโดย JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracking Page -->
+        <div id="trackingPage" class="page-content" style="display: none;">
+            <div class="tracking-page">
+                <!-- รายการติดตาม -->
+                <div class="tracking-list">
+                    <div class="tracking-list-item" onclick="selectTracking(1)">
+                        <div class="item-content">
+                            <div class="item-image">
+                                <img src="/api/placeholder/60/60" alt="iPhone 12 Pro">
+                            </div>
+                            <div class="item-info">
+                                <h3>iPhone 12 Pro แลกกับ Samsung S21</h3>
+                                <div class="item-status shipping">อยู่ระหว่างขนส่ง</div>
+                                <p>แลกเปลี่ยนกับ: คุณนก</p>
+                                <p class="tracking-number">เลขพัสดุ: TH1234567890</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tracking-list-item" onclick="selectTracking(2)">
+                        <div class="item-content">
+                            <div class="item-image">
+                                <img src="/api/placeholder/60/60" alt="เสื้อ Uniqlo">
+                            </div>
+                            <div class="item-info">
+                                <h3>เสื้อ Uniqlo แลกกับ เสื้อ H&M</h3>
+                                <div class="item-status delivered">จัดส่งสำเร็จ</div>
+                                <p>แลกเปลี่ยนกับ: คุณกบ</p>
+                                <p class="tracking-number">เลขพัสดุ: TH9876543210</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- รายละเอียดการติดตาม -->
+                <div id="tracking-detail" style="display: none;">
+                    <div class="tracking-card">
+                        <div class="product-info">
+                            <div class="product-image">
+                                <img src="/api/placeholder/80/80" alt="iPhone 12 Pro">
+                            </div>
+                            <div class="product-details">
+                                <h3>iPhone 12 Pro แลกกับ Samsung S21</h3>
+                                <p>แลกเปลี่ยนกับ: คุณนก</p>
+                                <p>วันที่: 23 ต.ค. 2024</p>
+                            </div>
+                        </div>
+
+                        <div class="tracking-number">
+                            <p>เลขพัสดุ</p>
+                            <div class="number">TH1234567890</div>
+                        </div>
+
+                        <div class="timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-content">
+                                    <span class="status success">สำเร็จ</span>
+                                    <h4>ยืนยันการแลกเปลี่ยน</h4>
+                                    <p>23 ต.ค. 2024, 10:00</p>
+                                </div>
+                            </div>
+                            
+                            <div class="timeline-item completed">
+                                <div class="timeline-content">
+                                    <span class="status success">สำเร็จ</span>
+                                    <h4>จัดส่งสินค้า</h4>
+                                    <p>23 ต.ค. 2024, 14:30</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item active">
+                                <div class="timeline-content">
+                                    <span class="status pending">กำลังดำเนินการ</span>
+                                    <h4>อยู่ระหว่างขนส่ง</h4>
+                                    <p>24 ต.ค. 2024, 09:15</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <h4>ได้รับสินค้า</h4>
+                                    <p>รอการยืนยัน</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Page -->
+        <div class="chat-page" id="chatPage" style="display: none;">
+            <div class="chat-app">
+                <!-- รายชื่อแชทด้านซ้าย -->
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <h1>แชท</h1>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" placeholder="ค้นหาในแชท">
+                    </div>
+                    <div class="chat-list">
+                        <!-- รายการแชทจะถูกใส่โดย JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ส่วนแชทด้านขวา -->
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <!-- ข้อมูลผู้รับจะถูกใส่โดย JavaScript -->
+                    </div>
+                    <div class="chat-messages">
+                        <!-- ข้อความแชทจะถูกใส่โดย JavaScript -->
+                    </div>
+                    <div class="chat-input">
+                        <div id="imagePreview" style="display: none;">
+                            <!-- พื้นที่สำหรับแสดงพรีวิวรูป -->
+                        </div>
+                        <div class="input-container">
+                            <button class="attach-button" onclick="document.getElementById('imageUpload').click()">📷</button>
+                            <input type="file" id="imageUpload" class="image-upload" accept="image/*" onchange="handleImageUpload(event)">
+                            <textarea placeholder="Aa" rows="1"></textarea>
+                            <button class="send-button" disabled>➤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-content">
+                <a class="nav-item active" data-tab="home">
+                    <i class="nav-icon">🏠</i>
+                    <span>สินค้า</span>
+                </a>
+                <a class="nav-item" data-tab="tracking">
+                    <i class="nav-icon">📦</i>
+                    <span>ติดตาม</span>
+                </a>
+                <a class="nav-item" data-tab="profile">
+                    <i class="nav-icon">👤</i>
+                    <span>โปรไฟล์</span>
+                </a>
+                <a class="nav-item" data-tab="chat">
+                    <i class="nav-icon">💬</i>
+                    <span>แชท</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Chat Dialog -->
+    <div class="dialog" id="chatDialog">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2>ส่งคำขอแลกเปลี่ยนสินค้า</h2>
+            </div>
+            <div id="selectedProduct"></div>
+            <div class="image-upload-grid" id="imageUploadGrid">
+                <label class="image-upload-box">
+                    <i>📸</i>
+                    <span>เพิ่มรูป</span>
+                    <input type="file" accept="image/*" multiple class="hidden" onchange="handleImageSelect(event)">
+                </label>
+            </div>
+            <textarea placeholder="เพิ่มข้อความถึงผู้ขาย... (ไม่บังคับ)" rows="4" style="width: 100%; margin: 1rem 0;"></textarea>
+            <div class="button-container">
+                <button class="outline-button" onclick="closeDialog()">ยกเลิก</button>
+                <button class="primary-button">ส่งคำขอแลกเปลี่ยน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal" id="addItemModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1.5rem">เพิ่มสินค้าใหม่</h2>
+            <form id="addItemForm">
+                <div class="form-group">
+                    <label for="itemTitle">ชื่อสินค้า</label>
+                    <input type="text" id="itemTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemDescription">รายละเอียดสินค้า</label>
+                    <textarea id="itemDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>รูปภาพสินค้า</label>
+                    <input type="file" accept="image/*" multiple>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end">
+                    <button type="button" class="outline-button" onclick="closeAddItemModal()">ยกเลิก</button>
+                    <button type="submit" class="primary-button">เพิ่มสินค้า</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
